@@ -1,0 +1,55 @@
+<% layout('layouts/boilerplate') %>
+<div class="container" style="display: flex; flex-direction: column;">
+    <div class="card custom-card mb-2">
+        <img src="<%=camp.image%>" class="card-img-top" alt="">
+        <div class="card-body">
+            <h5 class="card-title"><%=camp.title%></h5>
+            <p class="card-text description"><%=camp.description%></p>
+            <h5 class="card-subtitle mb-2 text-muted"><%=camp.location%></h5>
+            <h5 class="card-subtitle mb-2 text-muted">$<%=camp.price%> per Night</h5>
+            <div class="button-row mb-2">
+                <button style="margin-bottom: 2; background-color: rgb(31, 141, 169); color: white; width: 100%;" ><a href="/campgrounds/<%=camp._id%>/edit">EDIT</a></button>                
+            </div>
+            <div class="button-row mb-2">
+                <button style="margin-bottom: 2; background-color: red; color: white; width: 100%;"><a href="/campgrounds/<%=camp._id%>/delete">DELETE</a></button>            </div>
+            
+        </div>
+    </div>
+    <div class="card custom-card">
+        <h2 class="rating-heading" style="margin: 5px; text-align: center;">LEAVE A REVIEW</h2>
+            <form class="validate-form" action="/campground/<%=camp._id%>/review" method="post" novalidate >
+                <div class="rating-input">
+                    <label class="form-label" for="rating">RATING</label>
+                    <input class="form-range" type="range" min="1" max="5" name="Review[rating]" id="rating">
+                </div>
+                <div class="review-input">
+                    <label class="form-labbel" for="body">REVIEW</label>
+                    <textarea class="form-control mb-2 " name="Review[body]" id="body" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="button-row mb-2">
+                    <button type="submit" style="margin-bottom: 2; background-color: green; color: white;">SUBMIT</button>                
+                </div>
+            </form>
+            <div style="margin-top: 20px;"> 
+                <h2 style="font-size: 24px; color: #333; margin-bottom: 10px;">REVIEWS</h2>
+                <% for(let review of camp.reviews){ %>
+                    <div style="background-color: #f9f9f9; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+                        <div style="font-weight: bold;">
+                            <h5 class="card-title" >RATING: <%= review.rating %></h5>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <p class="card-text" >REVIEW: <%= review.body %></p>
+                        </div>
+                        <form action="/campgrounds/<%=camp._id%>/reviews/<%=review._id%>" method="post">
+                            <button class="btn btn-sm btn-danger">DELETE</button>
+                        </form>
+                    </div>
+                    <div>
+                    
+                <% } %>
+            </div>
+    </div>
+</div>
