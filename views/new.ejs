@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %>    
 <h2>ADDING NEW CAMPGROUND</h2>
-<form class="row g-3 validate-form" novalidate>
+<form action="/campground/new" method="post" class="row g-3 validate-form" novalidate>
     <div class="col-md-4">
         <label for="title" class="form-label">Title</label>
         <input type="text" class="form-control" id="title" name="title" required>
@@ -17,13 +17,13 @@
         <div class="invalid-feedback">Please provide a valid price.</div>
     </div>
     <div class="col-md-6">
-        <label for="imageURL" class="form-label">Image URL</label>
+        <label for="image" class="form-label">Image URL</label>
         <input type="text" class="form-control" id="image" name="image" required>
         <div class="invalid-feedback">Please provide a valid image URL.</div>
     </div>
     <div class="col-md-6">
         <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" name="image" required></textarea>
+        <textarea class="form-control" id="description" name="description" required></textarea>
         <div class="invalid-feedback">Please provide a description.</div>
     </div>
     <div class="col-12">

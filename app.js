@@ -106,7 +106,10 @@ app.post('/campground/new',catchAsync(async(req,res,next)=>{
 }))
 
 app.post('/campgrounds/:id/reviews/:reviewId',catchAsync(async(req,res,next)=>{
-    
+    const {id,reviewId}=req.params;
+    await Campground.findByIdAndUpdate(id,{$pull:{reviewId}});
+    await review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
 }))
 
 app.get('/campgrounds/:id',catchAsync(async (req, res) => {
