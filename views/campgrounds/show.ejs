@@ -23,7 +23,7 @@
         </div>
             <div class="card custom-card" style="height: fit-content;">
             <h2 class="rating-heading" style="margin: 5px; text-align: center;">LEAVE A REVIEW</h2>
-                <form class="validate-form" action="/campground/<%=camp._id%>/review" method="post" novalidate >
+                <form class="validate-form" action="/campgrounds/reviews/<%=camp._id%>" method="post" novalidate >
                     <div class="rating-input">
                         <label class="form-label" for="rating">RATING</label>
                         <input class="form-range" type="range" min="1" max="5" name="Review[rating]" id="rating">
@@ -50,7 +50,7 @@
                         <div style="margin-top: 5px;">
                             <p class="card-text" >REVIEW: <%= review.body %></p>
                         </div>
-                        <form action="/campgrounds/<%=camp._id%>/reviews/<%=review._id%>" method="post">
+                        <form action="/campgrounds/reviews/<%=camp._id%>/<%=review._id%>" method="post">
                             <button class="btn btn-sm btn-danger">DELETE</button>
                         </form>
                     </div>
