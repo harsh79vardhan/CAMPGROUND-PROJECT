@@ -9,6 +9,12 @@ const Campground=require('./models/campground')
 const methodOverride=require('method-override');
 const campgrounds=require('./routes/campground')
 const reviews=require('./routes/review')
+const flash=require('connect-flash');
+const session=require('express-session')
+const userRoutes=require('./routes/users');
+const LocalStrategy = require('passport-local').Strategy;
+const passport=require('passport');
+const User=require('./models/user');
 
 const mongoose = require('mongoose');
 const { log } = require('console');
@@ -27,6 +33,25 @@ app.set('views',path.join(__dirname,'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_mehtod'));
+const sessionConfig={
+    httpOnly:true,
+    secret:'thisisasecret',
+    resave:false,
+    saveUninitialized:true,
+    cookies:{
+        expires:Date.now() + 7*24*60*60*1000,
+        maxAge:Date.now()
+    }
+}
+app.use(session(sessionConfig))
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 
 // app.post('/campgrounds/reviews',async(req,res,next)=>{
@@ -39,6 +64,14 @@ app.use(methodOverride('_mehtod'));
 //     await rev.save();
 //     res.redirect(`/campgrounds/${camp._id}`);
 // });
+
+app.use((req,res,next)=>{
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+app.use('/user',userRoutes);
 
 app.use('/campgrounds',campgrounds);
 

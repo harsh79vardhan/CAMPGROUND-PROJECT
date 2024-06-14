@@ -38,14 +38,16 @@ router.post('/:id',async(req,res,next)=>{
     console.log(camp.reviews);
     await camp.save();
     await rev.save();
-    res.redirect(`/campgrounds/${camp._id}`);
+    req.flash('success','Successfully created review!!');
+    res.redirect(`/campgrounds/show/${camp._id}`);
 });
 
 router.post('/:id/:reviewId',catchAsync(async(req,res,next)=>{
     const {id,reviewId}=req.params;
     await Campground.findByIdAndUpdate(id,{$pull:{reviewId}});
     await review.findByIdAndDelete(reviewId);
-    res.redirect(`/campgrounds/${id}`);
+    req.flash('success','Successfully deleted review!!');
+    res.redirect(`/campgrounds/show/${id}`);
 }))
 
 module.exports=router
